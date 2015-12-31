@@ -125,9 +125,14 @@ static void update_user_handler (struct tgl_state *TLS, struct tgl_user *user, u
         
       } else {
         // Keep the users name up-to-date. Changing the actual user name would imply making the history
-        // inacessible, therefore name changes should only affect the alias.
+        // inaccessible, therefore name changes should only affect the alias.
         if (strcmp (purple_buddy_get_alias (buddy), user->print_name)) {
+          // If the names only differ in leading or trailing whitespace, libpurple refuses to update.
+          // Force libpurple, by making two "definitely different" calls.
+          gchar* x_name = g_strdup_printf("x%s", user->print_name);
+          serv_got_alias (tls_get_conn (TLS), purple_buddy_get_name (buddy), x_name);
           serv_got_alias (tls_get_conn (TLS), purple_buddy_get_name (buddy), user->print_name);
+          g_free (x_name);
         }
         p2tgl_prpl_got_user_status (TLS, user->id, &user->status);
       }
