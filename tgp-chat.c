@@ -65,6 +65,7 @@ void tgp_chat_blist_store (struct tgl_state *TLS, tgl_peer_t *P, const char *gro
   } else {
     if (PC) {
       purple_blist_remove_chat (PC);
+      PC = NULL;
     }
   }
   
