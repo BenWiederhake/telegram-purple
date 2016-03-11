@@ -835,3 +835,17 @@ void tgp_msg_recv (struct tgl_state *TLS, struct tgl_message *M) {
   tgp_msg_process_in_ready (TLS);
 }
 
+void tgp_msg_secret_notes (struct tgl_state *TLS, struct tgl_secret_chat *U) {
+  tgp_msg_special_out (TLS , _("A secret chat can only be read by you and your partner:") , U->id, PURPLE_MESSAGE_NO_LOG | PURPLE_MESSAGE_SYSTEM);
+  // An inline '\n' behaves different than two calls to tgp_msg_special_out
+  tgp_msg_special_out (TLS , _("However, you need to make sure that both you and your partner see the exact same image below:") , U->id, PURPLE_MESSAGE_NO_LOG | PURPLE_MESSAGE_SYSTEM);
+
+  tgp_format_img(...);
+
+  connection_data *conn = TLS->ev_base;
+  used_images_add (conn, img);
+  *flags |= PURPLE_MESSAGE_IMAGES;
+  return tgp_format_img (img);
+}
+
+

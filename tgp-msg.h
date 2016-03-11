@@ -43,4 +43,9 @@ int tgp_msg_send (struct tgl_state *TLS, const char *msg, tgl_peer_id_t to);
  */
 void tgp_msg_special_out (struct tgl_state *TLS, const char *msg, tgl_peer_id_t to_id, int flags);
 
+/**
+ * Tell the user about the most important implications of secret chats.
+ */
+void tgp_msg_secret_notes (struct tgl_state *TLS, struct tgl_secret_chat *U);
+
 #endif

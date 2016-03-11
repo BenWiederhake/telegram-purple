@@ -160,6 +160,7 @@ static void update_secret_chat_handler (struct tgl_state *TLS, struct tgl_secret
       write_secret_chat_file (TLS);
       if (U->state == sc_ok) {
         tgp_msg_special_out (TLS , _("Secret chat ready.") , U->id, PURPLE_MESSAGE_NO_LOG | PURPLE_MESSAGE_SYSTEM);
+        tgp_msg_secret_notes (TLS, U);
       }
     }
     if (buddy) {
