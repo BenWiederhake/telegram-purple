@@ -1,6 +1,6 @@
 language: c
-# Select Trusty Tahr.
-sudo: required
+# Select Trusty Tahr, containerized (fast boot, more processing power)
+sudo: false
 dist: trusty
 # Travis' git submodule support is ... broken? half-broken? Maybe intentional?
 git:
@@ -8,14 +8,20 @@ git:
   depth: 3
 before_install:
   - git submodule update --init --recursive
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq libssl-dev libgcrypt20-dev libpurple-dev libwebp-dev
+addons:
+  apt:
+    packages:
+      - libssl-dev
+      - libgcrypt20-dev
+      - libpurple-dev
+      - libwebp-dev
 script:
   - ./configure $CONFIGURE_FLAGS
   - make -j2
   - make check
 # Test both installation routines:
-  - sudo make install
+  - mkdir ../destdir
+  - make DESTDIR=../destdir install
   - make local_install
 compiler:
   - clang
